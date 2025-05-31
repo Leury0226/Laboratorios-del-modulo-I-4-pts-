@@ -1,0 +1,26 @@
+ip link show
+sudo dhclient eth0
+
+sudo nano /etc/network/interfaces
+auto eth0
+iface eth0 inet dhcp
+sudo systemctl restart networking
+
+sudo nano /etc/network/interfaces
+auto eth0
+iface eth0 inet static
+    address 192.168.1.100
+    netmask 255.255.255.0
+    gateway 192.168.1.1
+    dns-nameservers 8.8.8.8 8.8.4.4
+sudo systemctl restart networking
+
+sudo ip addr add 192.168.1.100/24 dev eth0
+sudo ip route add default via 192.168.1.1
+sudo nano /etc/resolv.conf
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+sudo nano /etc/resolv.conf
+nameserver 8.8.8.8
+nameserver 8.8.4.4
