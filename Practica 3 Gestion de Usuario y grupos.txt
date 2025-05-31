@@ -1,0 +1,13 @@
+sudo adduser leuryr
+sudo usermod -aG sudo leuryr
+groups leuryr
+
+sudo groupadd guest
+sudo adduser invitado
+sudo usermod -aG guest invitado
+groups invitado
+
+sudo deluser invitado
+sudo groupdel guest
+
+
