@@ -1,13 +1,45 @@
-sudo adduser leuryr
-sudo usermod -aG sudo leuryr
-groups leuryr
+====================================================
+PRACTICA 3 – Gestión de Usuarios y Grupos (Kali Linux)
+Crear usuario, asignar a sudoers, crear grupo guest,
+agregar usuario, y eliminar usuario/grupo
+====================================================
 
-sudo groupadd guest
-sudo adduser invitado
-sudo usermod -aG guest invitado
+# 1. Crear un usuario con tu nombre (ejemplo: leury)
+sudo adduser leury         # Crea el usuario "leury" y pedirá contraseña y datos opcionales
+
+# 2. Agregar el usuario al grupo "sudo" (sudoers)
+
+sudo usermod -aG sudo leury    # Le da privilegios de administrador al usuario
+
+# Verificar que está en el grupo sudo
+
+groups leury
+
+# ===============================================
+# 3. Crear un grupo llamado "guest"
+sudo groupadd guest        # Crea el grupo "guest"
+
+# 4. Crear un usuario y agregarlo al grupo "guest"
+
+sudo adduser invitado      # Crea el usuario "invitado"
+sudo usermod -aG guest invitado   # Agrega "invitado" al grupo "guest"
+
+# Verificar que pertenece al grupo guest
 groups invitado
 
-sudo deluser invitado
+# ===============================================
+# 5. Eliminar el usuario y el grupo creados en el paso anterior
+
+# Primero eliminar el usuario "invitado" y su carpeta personal
+sudo deluser --remove-home invitado
+
+# Luego eliminar el grupo "guest"
 sudo groupdel guest
+
+# ===============================================
+# 6. Verificar que ya no existen
+getent passwd invitado     # Si no muestra nada, el usuario fue eliminado
+getent group guest         # Si no muestra nada, el grupo fue eliminado
+
 
 
