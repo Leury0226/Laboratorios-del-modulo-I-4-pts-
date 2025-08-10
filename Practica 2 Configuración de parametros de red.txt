@@ -1,26 +1,60 @@
-ip link show
-sudo dhclient eth0
+===============================================
+RACTICA 2 – Configuración de parámetros de red
+Kali Linux - DHCP / IP estática + DNS Google
+===============================================
 
-sudo nano /etc/network/interfaces
-auto eth0
-iface eth0 inet dhcp
-sudo systemctl restart networking
+# 1️⃣ Ver el nombre de la interfaz de red
+ip addr    # Muestra todas las interfaces y sus IP actuales
 
-sudo nano /etc/network/interfaces
+===============================================
+OPCIÓN 1: CONFIGURAR CON DHCP (IP automática)
+===============================================
+
+sudo ip link set eth0 down        # Baja la interfaz (cambia eth0 por tu interfaz real)
+sudo ip addr flush dev eth0       # Limpia cualquier configuración IP previa
+sudo ip link set eth0 up          # Sube la interfaz otra vez
+sudo dhclient eth0                # Solicita una nueva IP al servidor DHCP
+ip addr show eth0                 # Verifica la IP asignada por DHCP
+
+===============================================
+OPCIÓN 2: CONFIGURAR IP ESTÁTICA (manual)
+===============================================
+
+sudo nano /etc/network/interfaces # Abre el archivo de configuración de red
+
+
+Dentro del archivo, agregar o modificar:
+----------------------------------------
 auto eth0
 iface eth0 inet static
-    address 192.168.1.100
-    netmask 255.255.255.0
-    gateway 192.168.1.1
-    dns-nameservers 8.8.8.8 8.8.4.4
-sudo systemctl restart networking
+address 192.168.1.100        # IP fija que quieres asignar
+netmask 255.255.255.0        # Máscara de subred
+gateway 192.168.1.1          # Puerta de enlace
+dns-nameservers 8.8.8.8 8.8.4.4  # DNS de Google
 
-sudo ip addr add 192.168.1.100/24 dev eth0
-sudo ip route add default via 192.168.1.1
-sudo nano /etc/resolv.conf
-nameserver 8.8.8.8
-nameserver 8.8.4.4
+----------------------------------------
 
-sudo nano /etc/resolv.conf
-nameserver 8.8.8.8
-nameserver 8.8.4.4
+# Guardar y salir (CTRL+O, Enter, CTRL+X)
+
+sudo systemctl restart networking  # Reinicia el servicio de red
+ip addr show eth0                   # Verifica que la IP estática esté activa
+
+# ===============================================
+# OPCIÓN 3: CAMBIAR SOLO DNS (sin cambiar IP)
+# ===============================================
+
+sudo nano /etc/resolv.conf          # Edita el archivo de configuración de DNS
+
+# Agregar dentro:
+# nameserver 8.8.8.8
+# nameserver 8.8.4.4
+
+# Nota: Si NetworkManager sobrescribe este archivo,
+# poner los DNS en /etc/network/interfaces o usar nmcli
+
+# ===============================================
+# 5️⃣ Verificar conectividad
+# ===============================================
+
+ping -c 4 8.8.8.8        # Verifica conexión a Internet usando la IP de Google DNS
+ping -c 4 google.com     # Verifica conexión y resolución de nombres DNS
