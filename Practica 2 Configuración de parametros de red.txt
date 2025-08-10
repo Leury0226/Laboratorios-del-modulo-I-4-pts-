@@ -46,8 +46,8 @@ ip addr show eth0                   # Verifica que la IP estática esté activa
 sudo nano /etc/resolv.conf          # Edita el archivo de configuración de DNS
 
 # Agregar dentro:
-# nameserver 8.8.8.8
-# nameserver 8.8.4.4
+nameserver 8.8.8.8
+nameserver 8.8.4.4
 
 # Nota: Si NetworkManager sobrescribe este archivo,
 # poner los DNS en /etc/network/interfaces o usar nmcli
