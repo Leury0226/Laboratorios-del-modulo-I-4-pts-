@@ -1,16 +1,45 @@
-mkdir materia
+======================================================
+PRACTICA 4 – Gestión de Permisos de Archivos (Kali Linux)
+======================================================
+
+# 1️⃣ Crear una carpeta llamada "materia"
+mkdir materia   # Crea la carpeta
+
+# 2️⃣ Entrar a la carpeta y crear un archivo estudiante.txt
 cd materia
+touch estudiante.txt   # Crea el archivo vacío
+
+# 3️⃣ Editar el archivo con "vi" y agregar nombre y matrícula
 vi estudiante.txt
-Leury Reinoso
-20241309
-:wq
+# Dentro de vi:
+#   Presiona "i" para entrar en modo inserción
+#   Escribe tu nombre y matrícula (ej: Juan Pérez - 20250123)
+#   Presiona "Esc"
+#   Escribe ":wq" y presiona Enter para guardar y salir
 
+# 4️⃣ Permisos para que solo el usuario propietario tenga control total
 chmod 700 estudiante.txt
+# Explicación: 
+7 = lectura (4) + escritura (2) + ejecución (1) para el propietario
+0 = sin permisos para grupo
+0 = sin permisos para otros usuarios
+
+# 5️⃣ Permisos para que solo el grupo propietario tenga control total
 chmod 070 estudiante.txt
+# Explicación:
+#   0 = sin permisos para el propietario
+#   7 = lectura (4) + escritura (2) + ejecución (1) para el grupo
+#   0 = sin permisos para otros usuarios
+
+# 6️⃣ Crear carpeta "materia2"
 cd ..
-
 mkdir materia2
-cp materia/estudiante.txt materia2/
-ls -l materia2/
 
+# 7️⃣ Copiar el archivo estudiante.txt a materia2
+cp materia/estudiante.txt materia2/
+
+# 8️⃣ Eliminar la carpeta "materia" junto con el archivo estudiante.txt
 rm -r materia
+
+# 9️⃣ Verificar que materia ya no existe
+ls
